@@ -1,7 +1,19 @@
 import requests 
-import bs4 from BeautifulSoup
-from time import sleep 
+from bs4 import BeautifulSoup
 from random import choice
+from csv import DictReader
+
+
+
+BASE_URL= "http://quotes.toscrape.com"
+
+def read_quotes(filename):
+    with open(filename, "r") as file:
+        csv_reader = DictReader(file)
+    return list(csv_reader)
+
+
+
 
 def start_game(quotes):
     quote = choice(quotes)
@@ -35,9 +47,9 @@ again = ''
 while again.lower() not in ('y', 'yes', 'n', 'no'):
     again = input("Would you like to play again? (y/n)?")
 if again.lower() in ('yes', 'y'):
-    start_game()
+    return start_game(quotes)
 else: 
     print ("OK, GOODBYE!")
 
-quotes = scrape_quotes()
+quotes = read_quotes("quotes.csv")
 start_game(quotes)
